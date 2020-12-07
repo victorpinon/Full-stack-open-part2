@@ -33,7 +33,7 @@ const App = () => {
         <div>
             <Filter nameFilter={nameFilter} handleNameFilterChange={handleNameFilterChange} />
             <List filteredCountries={filteredCountries} setFilteredCountries={setFilteredCountries} handleShowClick={handleShowClick} />
-            <View filteredCountries={filteredCountries} />
+            {filteredCountries.length === 1 ? <View filteredCountries={filteredCountries} /> : null}
         </div>
     )
 }
