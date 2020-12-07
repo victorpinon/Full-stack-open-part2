@@ -1,6 +1,6 @@
 import React from 'react'
 
-const List = ({filteredCountries}) => {
+const List = ({filteredCountries, setFilteredCountries, handleShowClick}) => {
     
     if (filteredCountries.length > 10) {
         return (
@@ -16,7 +16,7 @@ const List = ({filteredCountries}) => {
         return(
             <div>
                 {filteredCountries
-                .map(country => <p key={country.alpha3Code}>{country.name}</p>)}
+                .map(country => <p key={country.name}>{country.name} <button onClick={() => handleShowClick(country.name)}>show</button></p>)}
             </div>
         )
     }

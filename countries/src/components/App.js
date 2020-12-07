@@ -23,11 +23,16 @@ const App = () => {
         setFilteredCountries(countries.filter(country => event.target.value === '' ? true : country.name.toLowerCase().includes(event.target.value.toLowerCase())))
         setNameFilter(event.target.value)
     }
+
+    const handleShowClick = (countryName) => {
+        setFilteredCountries(countries.filter(country => country.name.toLowerCase().includes(countryName.toLowerCase())))
+        setNameFilter(countryName)
+    }
     
     return(
         <div>
             <Filter nameFilter={nameFilter} handleNameFilterChange={handleNameFilterChange} />
-            <List filteredCountries={filteredCountries} />
+            <List filteredCountries={filteredCountries} setFilteredCountries={setFilteredCountries} handleShowClick={handleShowClick} />
             <View filteredCountries={filteredCountries} />
         </div>
     )
