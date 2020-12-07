@@ -30,6 +30,16 @@ const App = () => {
     setNameFilter(event.target.value)
   }
 
+  const handleDeleteClick = (personToDelete) => {
+    if (window.confirm(`Delete ${personToDelete.name} ?`)) { 
+      personService
+      .remove(personToDelete.id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== personToDelete.id))
+      })
+    }
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     if (persons.find(person => person.name === newName) === undefined) {
@@ -42,7 +52,7 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
-      setNewNumber('')
+        setNewNumber('')
       })      
     } else {
       alert(`${newName} is already added to phonebook`)
@@ -64,7 +74,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={persons} nameFilter={nameFilter} />
+      <Persons persons={persons} nameFilter={nameFilter} handleDeleteClick={handleDeleteClick} />
     </div>
   )
 }
