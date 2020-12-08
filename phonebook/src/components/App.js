@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import personService from '../services/persons'
-import Filter from './Filter'
+import Notification from './Notification'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+import Filter from './Filter'
+
+
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ nameFilter, setNameFilter ] = useState('')
+  const [ message, setMessage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -28,6 +32,13 @@ const App = () => {
 
   const handleNameFilterChange = (event) => {
     setNameFilter(event.target.value)
+  }
+
+  const showNotificationMessage = (message) => {
+    setMessage(message)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const handleDeleteClick = (personToDelete) => {
@@ -54,6 +65,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        showNotificationMessage(`Added ${returnedPerson.name}`)
       })      
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) { 
@@ -64,6 +76,7 @@ const App = () => {
           setPersons(persons.map(p => p.id !== returnedPerson.id ? p : returnedPerson))
           setNewName('')
           setNewNumber('')
+          showNotificationMessage(`Changed ${returnedPerson.name} phone number`)
         })
       }
     }
@@ -72,6 +85,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter nameFilter={nameFilter} handleNameFilterChange={handleNameFilterChange} />
       
       <h2>Add new</h2>
