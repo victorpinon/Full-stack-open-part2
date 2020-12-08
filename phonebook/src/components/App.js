@@ -12,7 +12,9 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ nameFilter, setNameFilter ] = useState('')
+  const [ messageType, setMessageType ] = useState(null)
   const [ message, setMessage ] = useState(null)
+  
 
   useEffect(() => {
     personService
@@ -34,9 +36,11 @@ const App = () => {
     setNameFilter(event.target.value)
   }
 
-  const showNotificationMessage = (message) => {
+  const showNotificationMessage = (message, messageType) => {
+    setMessageType(messageType)
     setMessage(message)
     setTimeout(() => {
+      setMessageType(null)
       setMessage(null)
     }, 5000)
   }
@@ -47,6 +51,9 @@ const App = () => {
       .remove(personToDelete.id)
       .then(() => {
         setPersons(persons.filter(person => person.id !== personToDelete.id))
+      }).catch(error => {
+        setPersons(persons.filter(person => person.id !== personToDelete.id))
+        showNotificationMessage(`Person '${personToDelete.name}' was already removed from server`, 'error')
       })
     }
   }
@@ -65,7 +72,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        showNotificationMessage(`Added ${returnedPerson.name}`)
+        showNotificationMessage(`Added ${returnedPerson.name}`, 'success')
       })      
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) { 
@@ -76,7 +83,7 @@ const App = () => {
           setPersons(persons.map(p => p.id !== returnedPerson.id ? p : returnedPerson))
           setNewName('')
           setNewNumber('')
-          showNotificationMessage(`Changed ${returnedPerson.name} phone number`)
+          showNotificationMessage(`Changed ${returnedPerson.name} phone number`, 'success')
         })
       }
     }
@@ -85,7 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification message={message} messageType={messageType}/>
       <Filter nameFilter={nameFilter} handleNameFilterChange={handleNameFilterChange} />
       
       <h2>Add new</h2>

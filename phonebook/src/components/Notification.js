@@ -1,14 +1,20 @@
 import React from 'react'
 
-const Notification = ({ message }) => {
-    const messageStyle = {
-        color: 'green',
+const Notification = ({ message, messageType }) => {
+    let messageStyle = {
         background: 'lightgrey',
         fontSize: 20,
         borderStyle: 'solid',
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
+    }
+
+    if (messageType === 'success') {
+        messageStyle.color = 'green'
+    }
+    else if (messageType === 'error') {
+        messageStyle.color = 'red'
     }
 
     if (message === null) {
