@@ -73,6 +73,9 @@ const App = () => {
         setNewName('')
         setNewNumber('')
         showNotificationMessage(`Added ${returnedPerson.name}`, 'success')
+      })
+      .catch(error => {
+        showNotificationMessage(error.response.data.error, 'error')
       })      
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) { 
@@ -85,6 +88,9 @@ const App = () => {
           setNewNumber('')
           showNotificationMessage(`Changed ${returnedPerson.name} phone number`, 'success')
         })
+        .catch(error => {
+          showNotificationMessage(error.response.data.error, 'error')
+        }) 
       }
     }
   }
