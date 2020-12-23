@@ -5,8 +5,6 @@ import PersonForm from './PersonForm'
 import Persons from './Persons'
 import Filter from './Filter'
 
-
-
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
@@ -14,7 +12,6 @@ const App = () => {
   const [ nameFilter, setNameFilter ] = useState('')
   const [ messageType, setMessageType ] = useState(null)
   const [ message, setMessage ] = useState(null)
-  
 
   useEffect(() => {
     personService
